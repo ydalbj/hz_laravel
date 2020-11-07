@@ -1,0 +1,35 @@
+.mui-switch:before {
+    font-size: 13px;
+    position: absolute;
+    top: 3px;
+    right: 11px;
+    content: '否';
+    text-transform: uppercase;
+    color: #999
+}
+.mui-switch.mui-active:before {
+    right: auto;
+    left: 15px;
+    content: '是';
+    color: #fff
+}
+.mui-switch.mui-active {
+    border-color: red;
+    background-color: red
+}
+.quesition{
+    display:none;
+}
+.disabled-mouse {
+    pointer-events: none;
+    color:#777;
+}
+.moust-do{
+    font-size: 30px;
+}
+.min-switch{
+    min-width:74px;
+}
+.weitianTip{
+    color:red;
+}
