@@ -41,6 +41,12 @@
 <div id="info">
 
 </div>
+<div hidden>
+    <form method="post" action="/subject/{{$subject_id}}/answer" id="results-form">
+        @csrf
+        <input type='text' name="results" />
+    </form>
+</div>
 <script>
     var questions = JSON.parse('{!! $questions !!}');
     var subject_id = {{$subject_id ?? ''}};

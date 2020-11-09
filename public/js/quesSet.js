@@ -137,20 +137,23 @@ window.onload = function() {
             if (e.index == 0) {
                 mui("#going").progressbar({progress:100}).show();
                 getEntity(".quesition");
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                
-                $.post('/subject/' + subject_id + '/answer',
-                    {
-                        results: JSON.stringify(result)
-                    },
-                    function (data, status) {
-                        alert("数据: \n" + data + "\n状态: " + status);
-                    }
-                );
+
+                $("input[name=results]").val(JSON.stringify(result));
+                $("#results-form").submit();
+                // $.ajaxSetup({
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     }
+                // });
+
+                // $.post('/subject/' + subject_id + '/answer',
+                //     {
+                //         results: JSON.stringify(result)
+                //     },
+                //     function (data, status) {
+                //         alert("数据: \n" + data + "\n状态: " + status);
+                //     }
+                // );
                 // console.log(result);
             } else {
                 info.innerText = '你放弃了本次问卷的提交'

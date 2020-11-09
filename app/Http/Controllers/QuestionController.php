@@ -104,7 +104,7 @@ class QuestionController extends Controller
         $result->save();
 
         // 保存数据库
-        return ['socre' => $score];
+        return view('result');
     }
 
     public function calculateScore(array $results)
