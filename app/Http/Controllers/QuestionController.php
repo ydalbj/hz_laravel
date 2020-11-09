@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use App\Models\Answer;
+use App\Models\Result;
+use Illuminate\Support\Facades\Log;
 
 class QuestionController extends Controller
 {
@@ -18,7 +21,10 @@ class QuestionController extends Controller
             ->toArray();
 
         $questions = $this->transformed($questions);
-        return view('question', ['questions' => json_encode($questions)]);
+        return view('question', [
+            'questions' => json_encode($questions),
+            'subject_id' => $id,
+        ]);
     }
 
     private function transformed(array $questions)
@@ -78,5 +84,35 @@ class QuestionController extends Controller
         }
 
         return $transformed;
+    }
+
+    public function answer(Request $request, $id)
+    {
+        $results = $request->input('results');
+        if (!$results) {
+            return "非法请求";
+        }
+
+        $results = json_decode($results, true);
+
+        // 计算结果
+        $score = $this->calculateScore($results);
+
+        $result = new Result();
+        $result->subject_id = $id;
+        $result->results = json_encode($results);
+        $result->save();
+
+        // 保存数据库
+        return ['socre' => $score];
+    }
+
+    public function calculateScore(array $results)
+    {
+        $answer_ids = array_keys($results);
+
+        $score = Answer::whereIn('id', $answer_ids)->sum('score');
+        Log::debug('score:' . $score);
+        return $score;
     }
 }

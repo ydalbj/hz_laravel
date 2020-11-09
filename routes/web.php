@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/subject/{id}', [QuestionController::class, 'index'])->where('id', '[0-9]+');
+
+Route::post('/subject/{id}/answer', [QuestionController::class, 'answer'])->where('id', '[0-9]+');

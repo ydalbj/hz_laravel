@@ -136,6 +136,12 @@ class SubjectSeeder extends Seeder
                 'title' => 'E:选我',
                 'score' => 1,
             ],
+            [
+                'id' => 12,
+                'question_id' => 1,
+                'title' => '年龄',
+                'score' => 0,
+            ],
         ]);
     }
 }

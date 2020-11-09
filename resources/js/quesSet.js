@@ -133,11 +133,25 @@ window.onload = function() {
 //完成提交
     document.getElementById("confirmBtn").addEventListener('tap', function() {
         var btnArray = ['是', '否'];
-        mui.confirm('是否完成本次本卷并提交？', 'Hello MUI', btnArray, function(e) {
+        mui.confirm('是否完成本次本卷并提交？', '您好', btnArray, function(e) {
             if (e.index == 0) {
                 mui("#going").progressbar({progress:100}).show();
                 getEntity(".quesition");
-                console.log(result);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                
+                $.post('/subject/' + subject_id + '/answer',
+                    {
+                        results: JSON.stringify(result)
+                    },
+                    function (data, status) {
+                        alert("数据: \n" + data + "\n状态: " + status);
+                    }
+                );
+                // console.log(result);
             } else {
                 info.innerText = '你放弃了本次问卷的提交'
             }

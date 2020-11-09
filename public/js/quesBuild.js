@@ -11,8 +11,7 @@
 
 //     //{"questitle":"这是一道单选题","questionName":"dx","questiondatafield":"test6" ,"questionType":"1","questionType1":"0","questionType2":"0","answer":['吃','和','睡']},
 // ];
-QUES = $questions;
-console.log($questions);
+QUES = questions;
 $.each(QUES,function(n,value){
     var maxLength = QUES.length;
     var _this = this;
@@ -109,7 +108,7 @@ $.each(QUES,function(n,value){
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++)
                 {
-                    Question+='<div  class="mui-input-row"> <label>'+_this.answer[i]+'</label> <input data-field="'+_this.questiondatafield+'" value="" type="text" name="'+_this.questionName+'" class="mui-input-clear" placeholder="请在此输入" ';
+                    Question+='<div  class="mui-input-row"> <label>'+_this.answer[i]+'</label> <input data-field="'+_this.answerdatafield[i]+'" value="" type="text" name="'+_this.questionName+'" class="mui-input-clear" placeholder="请在此输入" ';
                        _this.questionType==0?Question+='></div>':Question+='required></div>';
                 };
                 break;
@@ -118,7 +117,7 @@ $.each(QUES,function(n,value){
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++)
                 {
-                    Question+='<div data-field="'+_this.questiondatafield+'" class="mui-input-row"> <label>'+_this.answer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+_this.minnum+'" data-numbox-max="'+_this.maxnum+'" data-numbox-step="'+_this.stepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input data-field="'+_this.questiondatafield+'" value="" name="'+_this.questionName+'" class="mui-input-numbox" type="number"';
+                    Question+='<div  class="mui-input-row"> <label>'+_this.answer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+_this.minnum+'" data-numbox-max="'+_this.maxnum+'" data-numbox-step="'+_this.stepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input data-field="'+_this.answerdatafield[i]+'" value="" name="'+_this.questionName+'" class="mui-input-numbox" type="number"';
                     _this.questionType==0?Question+='>':Question+='required>';
                     Question+='<button class="mui-btn mui-btn-numbox-plus" type="button">+</button> </div> </div>';
                 };

@@ -2,6 +2,7 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script type="text/javascript" src="{{URL::asset('js/base.js')}}"></script>
     <title>儿童语言发育测试</title>
     <!--mui源码参考地址
@@ -41,7 +42,8 @@
 
 </div>
 <script>
-    $questions = JSON.parse('{!! $questions !!}');
+    var questions = JSON.parse('{!! $questions !!}');
+    var subject_id = {{$subject_id ?? ''}};
 </script>
 <script src="{{URL::asset('/js/quesBuild.js')}}"></script>
 <script src="{{URL::asset('/js/quesSet.js')}}"></script>
