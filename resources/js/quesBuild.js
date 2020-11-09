@@ -3,14 +3,16 @@
  * this是指在each函数中每次遍历得到的一个问题测试期间用QUES变量代表
  * {"questitle":"题目","questionName":"题目的name","questionType":"1：必填；0：非必填 ","questionType1":"0：非隐藏题；1：隐藏题","questionType2":"0：单选题；1：多选题；2：填空题；3：数字填空题","answer":['答案列表']"minnum":"最小数字","maxnum":"最大数字","stepnum":"点击按钮每次增减数字"，"hideQuestion":[{...隐藏题},{...}]}
  */
-var QUES = [{"questitle":"客户姓名","questionName":"name","questiondatafield":"test1" ,"questionType":"0","questionType1":"0","questionType2":"2","answer":['姓名']},
-    {"questitle":"客户年龄","questionName":"age","questiondatafield":"test2" ,"questionType":"1","questionType1":"0","questionType2":"3","answer":['年龄'],"minnum":"18","maxnum":"130","stepnum":"1"},
-    {"questitle":"客户受教育程度","questionName":"cd","questionType":"0","questionType1":"0","questionType2":"0","answer":['不识字','小学','初中','高中','中专/技校','大学本科/专科','研究生及以上'] ,"answerdatafield":["radio1","radio2","radio3","radio4","radio5","radio6"]},
-    {"questitle":"这是一道多选题","questionName":"dux","questionType":"1","questionType1":"0","questionType2":"1","answer":['吃','和','睡','写程序','做ui'],"answerdatafield":["checkbox1","checkbox2","checkbox3","checkbox4","checkbox5"]},
-    {"questitle":"这是一道隐藏题","questionName":"yc","questionType":"0","questionType1":"1","questionType2":"0","hideQuestion":[{"hideQuestitle":"客户姓名","hideQuestionName":"hidename","hideQuestiondatafield":"test7","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"2","hideQanswer":["姓名"]}, {"hideQuestitle":"客户年龄","hideQuestiondatafield":"test8","hideQuestionName":"hideage","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"3","hideQanswer":["年龄"],"hideQminnum":"18","hideQmaxnum":"130","hideQstepnum":"1"}, {"hideQuestitle":"客户受教育程度","hideQuestiondatafield":"test9","hideQuestionName":"hidedx","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"0","hideQanswer":["不识字","小学","初中","高中","中专/技校","大学本科/专科","研究生及以上"],"hideQanswerdatafield":["hideQradio1","hideQradio2","hideQradio3","hideQradio4","hideQradio5","hideQradio6"]},{"hideQuestitle":"这是一道多选题","hideQuestiondatafield":"test10","hideQuestionName":"hidedux","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"1","hideQanswer":['吃','和','睡','写程序','做ui'],"hideQanswerdatafield":["hideQcheckbox1","hideQcheckbox2","hideQcheckbox3","hideQrcheckbox4","hideQcheckbox5"]}]},
+// var QUES = [{"questitle":"客户姓名","questionName":"name","questiondatafield":"test1" ,"questionType":"0","questionType1":"0","questionType2":"2","answer":['姓名']},
+//     {"questitle":"客户年龄","questionName":"age","questiondatafield":"test2" ,"questionType":"1","questionType1":"0","questionType2":"3","answer":['年龄'],"minnum":"18","maxnum":"130","stepnum":"1"},
+//     {"questitle":"客户受教育程度","questionName":"cd","questionType":"0","questionType1":"0","questionType2":"0","answer":['不识字','小学','初中','高中','中专/技校','大学本科/专科','研究生及以上'] ,"answerdatafield":["radio1","radio2","radio3","radio4","radio5","radio6"]},
+//     {"questitle":"这是一道多选题","questionName":"dux","questionType":"1","questionType1":"0","questionType2":"1","answer":['吃','和','睡','写程序','做ui'],"answerdatafield":["checkbox1","checkbox2","checkbox3","checkbox4","checkbox5"]},
+//     {"questitle":"这是一道隐藏题","questionName":"yc","questionType":"0","questionType1":"1","questionType2":"0","hideQuestion":[{"hideQuestitle":"客户姓名","hideQuestionName":"hidename","hideQuestiondatafield":"test7","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"2","hideQanswer":["姓名"]}, {"hideQuestitle":"客户年龄","hideQuestiondatafield":"test8","hideQuestionName":"hideage","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"3","hideQanswer":["年龄"],"hideQminnum":"18","hideQmaxnum":"130","hideQstepnum":"1"}, {"hideQuestitle":"客户受教育程度","hideQuestiondatafield":"test9","hideQuestionName":"hidedx","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"0","hideQanswer":["不识字","小学","初中","高中","中专/技校","大学本科/专科","研究生及以上"],"hideQanswerdatafield":["hideQradio1","hideQradio2","hideQradio3","hideQradio4","hideQradio5","hideQradio6"]},{"hideQuestitle":"这是一道多选题","hideQuestiondatafield":"test10","hideQuestionName":"hidedux","hideQuestionType":"1","hideQuestionType1":"0","hideQuestionType2":"1","hideQanswer":['吃','和','睡','写程序','做ui'],"hideQanswerdatafield":["hideQcheckbox1","hideQcheckbox2","hideQcheckbox3","hideQrcheckbox4","hideQcheckbox5"]}]},
 
-    //{"questitle":"这是一道单选题","questionName":"dx","questiondatafield":"test6" ,"questionType":"1","questionType1":"0","questionType2":"0","answer":['吃','和','睡']},
-];
+//     //{"questitle":"这是一道单选题","questionName":"dx","questiondatafield":"test6" ,"questionType":"1","questionType1":"0","questionType2":"0","answer":['吃','和','睡']},
+// ];
+QUES = $questions;
+console.log($questions);
 $.each(QUES,function(n,value){
     var maxLength = QUES.length;
     var _this = this;
@@ -82,6 +84,7 @@ $.each(QUES,function(n,value){
         {
             //单项选择
             case "0":
+            case 0:
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++){
                     Question+='<li class="mui-table-view-cell mui-radio mui-left"> <input data-field="'+_this.answerdatafield[i]+'" value=""  name="'+_this.questionName+'" type="radio" ';
@@ -89,6 +92,7 @@ $.each(QUES,function(n,value){
                 };
                 break;
             case "1"://多项选择
+            case 1:
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++)
                 {
@@ -101,6 +105,7 @@ $.each(QUES,function(n,value){
                 };
                 break;
             case "2"://输入框
+            case 2:
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++)
                 {
@@ -109,6 +114,7 @@ $.each(QUES,function(n,value){
                 };
                 break;
             case "3"://数字输入框
+            case 3:
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++)
                 {

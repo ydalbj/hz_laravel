@@ -11,7 +11,6 @@ class QuestionController extends Controller
     {
         $questions = Question::where('subject_id', $id)
             ->where('is_hide', 0)
-            // ->select('id', 'title as questitle', 'name as questionName', 'is_required as questionType', 'is_hide as questionType1', 'type as questionType2')
             ->with(['answers' => function ($query) {
                 $query->select('id', 'question_id', 'title');
             }])
@@ -31,6 +30,7 @@ class QuestionController extends Controller
                 // 选择题
                 case 0:
                 case 1:
+                    break;
 
                 // 填空题
                 case 2:
@@ -66,8 +66,13 @@ class QuestionController extends Controller
                 $answers_data_field[] = $a['id'];
             }
 
-            $transformed[$i]['answer'] = $answers;
-            $transformed[$i]['answerdatafield'] = $answers_data_field;
+            if (!empty($answers)) {
+                $transformed[$i]['answer'] = $answers;
+                $transformed[$i]['answerdatafield'] = $answers_data_field;
+            } else {
+                // 比如填空题，如果没有设置answers,则把问题title作为answer显示
+                $transformed[$i]['answer'] = [$q['title']];
+            }
 
             $i++;
         }

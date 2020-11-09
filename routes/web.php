@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('question');
+    return '链接错误，请联系管理员';
 });
 
 Route::get('/subject/{id}', [QuestionController::class, 'index'])->where('id', '[0-9]+');

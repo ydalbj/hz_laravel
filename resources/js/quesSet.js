@@ -55,7 +55,7 @@ window.onload = function() {
         });
     });
     mui('.nextQuestion').each(function(){//下一题
-        $(this).parent().parent().next().hasClass("mui-card")?$(this).attr("onclick","nextQues()"):$(this).addClass("disabled-mouse");
+        // $(this).parent().parent().next().hasClass("mui-card")?$(this).attr("onclick","nextQues()"):$(this).addClass("disabled-mouse");
         this.addEventListener('click', function() {
             $(this).parent().prev(".sub").click(function(){
                 return false;//否则会提交刷新
@@ -68,28 +68,53 @@ window.onload = function() {
             }else{
                 var required = $(this).parent().prevAll(".mui-card-content").find("input").prop("required");
                 if(required==true){
-                    var YNrequired = $(this).parent().prevAll(".mui-card-content").find("input");
-                    var YNrequiredLength = YNrequired.length;
-                    var isNull = false;
-                    for (var i=0;i<YNrequiredLength;i++){
+                    var inputs = $(this).parent().prevAll(".mui-card-content").find("input");
+                    // var YNrequiredLength = inputs.length;
+                    var checked = $(this).parent().prevAll(".mui-card-content").find("input").filter(':checked');;
+                    // var is_checked = $(this).parent().prevAll(".mui-card-content").find("input").prop("checked");
+                    var name = inputs[0].name;
+                    var type = inputs[0].type;
+                    var value = inputs[0].value;
+                    var tip = '<span class="weitianTip"> 此为必选项 </span>';
 
-                        if(YNrequired[i].validationMessage!=""){
-                            var tip = '<span class="weitianTip">'+YNrequired[i].validationMessage+'</span>';
-                            //$("p[name='"+YNrequired[i].name+"']").append(YNrequired[i].validationMessage);//在题目后面加提示
-                            if($("p[name='"+YNrequired[i].name+"']").children("span.weitianTip").length>0){//只显示一个提示
-                                return false
-                            }else{
-                                var removeTip =  function removeTip(){
-                                    $("p[name='"+YNrequired[i].name+"']").children("span.weitianTip").remove();
-                                }
-                                $("p[name='"+YNrequired[i].name+"']").append(tip);
+                    var addTip = function addTip() {
+
+                        $("p[name='"+ name + "']").append(tip);
+                    }
+
+                    var removeTip =  function removeTip(){
+                        $("p[name='"+ name + "']").children("span.weitianTip").remove();
+                    }
+                    removeTip();
+
+                    switch (type) {
+                        case 'number':
+                        case 'text':
+                            if (value !== '') {
+                                isNull = false;
+                            } else {
+                                isNull = true;
+                                addTip();
+                                setTimeout(removeTip,10000);
+                            }
+                            break;
+
+                        case 'checkbox':
+                        case 'radio':
+                            if (checked && checked.length > 0) {
+                                isNull = false;
+                            } else {
+                                isNull = true;
+                                addTip();
                                 setTimeout(removeTip,10000);
                             }
 
-                            isNull=true;
                             break;
-                        }
+
+                        default:
+                            break;
                     }
+
                     if(isNull==false){
                         $(this).parent().parent("form").hide(800);
                         $(this).parent().parent().next("form").show(800);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="{{URL::asset('js/base.js')}}"></script>
-    <title>quesition</title>
+    <title>儿童语言发育测试</title>
     <!--mui源码参考地址
     http://www.dcloud.io/hellomui/index.html
     -->
