@@ -8,6 +8,7 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Controllers\AdminController;
+use Illuminate\Support\Facades\Request;
 
 class QuestionController extends AdminController
 {
@@ -57,6 +58,10 @@ class QuestionController extends AdminController
                     return Subject::pluck('title', 'id')->toArray();
                 });
             });
+
+            $grid->disableCreateButton();
+            $create_url = '/admin/questions/create?subject_id=' . Request::input('subject_id');
+            $grid->tools('<a class="btn btn-primary disable-outline" href=' . $create_url . '>新增题目</a>');
         });
     }
 
@@ -90,13 +95,15 @@ class QuestionController extends AdminController
     protected function form()
     {
         return Form::make(new Question(), function (Form $form) {
+            $subject_id = Request::input('subject_id');
             $form->display('id');
-            $form->text('subject_id');
-            $form->text('name');
-            $form->text('title');
-            $form->text('is_required');
-            $form->text('is_hide');
-            $form->text('type');
+            $form->text('subject_id')->value($subject_id)->required();
+            $form->hidden('name')->value('test');
+            $form->text('title')->required();
+            $form->radio('is_required')->options([0=>'否', 1=>'是'])->default(1)->required();
+            $form->hidden('is_hide')->value(0);
+            $types = config('question.type');
+            $form->radio('type')->options($types)->required();
         
             $form->display('created_at');
             $form->display('updated_at');
