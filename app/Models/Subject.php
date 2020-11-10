@@ -8,7 +8,7 @@ use App\Models\Question;
 
 class Subject extends Model
 {
-    use HasFactory;
+    use HasFactory, DateTrait;
 
     public function questions()
     {

@@ -9,7 +9,7 @@ use App\Models\Answer;
 
 class Question extends Model
 {
-    use HasFactory;
+    use HasFactory, DateTrait;
 
     public function subject()
     {

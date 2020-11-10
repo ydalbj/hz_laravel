@@ -14,4 +14,11 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+    $router->resource('subjects', 'SubjectController');
+
+    $router->resource('questions', 'QuestionController');
+
+    $router->resource('answers', 'AnswerController');
+
+    $router->resource('results', 'ResultController');
 });
