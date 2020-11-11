@@ -12,6 +12,7 @@
 //     //{"questitle":"这是一道单选题","questionName":"dx","questiondatafield":"test6" ,"questionType":"1","questionType1":"0","questionType2":"0","answer":['吃','和','睡']},
 // ];
 QUES = questions;
+console.log(QUES);
 $.each(QUES,function(n,value){
     var maxLength = QUES.length;
     var _this = this;
@@ -66,7 +67,7 @@ $.each(QUES,function(n,value){
                     for(var i=0;i<answerNum;i++)
                     {
                         //Question+='<div class="mui-input-row"> <label>'+this.hideQanswer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+this.hideQminnum+'" data-numbox-max="'+this.hideQmaxnum+'" data-numbox-step="'+this.hideQstepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input class="mui-input-numbox" type="number"> <button class="mui-btn mui-btn-numbox-plus" type="button">+</button> </div> </div>';
-                        Question+='<div class="mui-input-row"> <label>'+this.hideQanswer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+this.hideQminnum+'" data-numbox-max="'+this.hideQmaxnum+'" data-numbox-step="'+this.hideQstepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input  data-field="'+this.hideQuestiondatafield+'" value="" name="'+this.hideQuestionName+'" class="mui-input-numbox" type="number"';
+                        Question+='<div class="mui-input-row"> <label>'+this.hideQanswer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+this.hideQminnum+'" data-numbox-max="'+this.hideQmaxnum+'" data-numbox-step="'+this.hideQstepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input  data-field="'+this.hideQuestiondatafield+'" value="3" name="'+this.hideQuestionName+'" class="mui-input-numbox" type="number"';
                         this.hideQuestionType==0?Question+='>':Question+='required>';
                         Question+='<button class="mui-btn mui-btn-numbox-plus" type="button">+</button> </div> </div>';
                     };
@@ -117,7 +118,7 @@ $.each(QUES,function(n,value){
                 var answerNum = _this.answer.length;
                 for(var i=0;i<answerNum;i++)
                 {
-                    Question+='<div  class="mui-input-row"> <label>'+_this.answer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+_this.minnum+'" data-numbox-max="'+_this.maxnum+'" data-numbox-step="'+_this.stepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input data-field="'+_this.answerdatafield[i]+'" value="" name="'+_this.questionName+'" class="mui-input-numbox" type="number"';
+                    Question+='<div  class="mui-input-row"> <label>'+_this.answer[i]+'</label>  <div class="mui-numbox" data-numbox-min="'+_this.minnum+'" data-numbox-max="'+_this.maxnum+'" data-numbox-step="'+_this.stepnum+'"> <button class="mui-btn mui-btn-numbox-minus" type="button">-</button> <input data-field="'+_this.answerdatafield[i]+'" value="3" name="'+_this.questionName+'" class="mui-input-numbox" type="number"';
                     _this.questionType==0?Question+='>':Question+='required>';
                     Question+='<button class="mui-btn mui-btn-numbox-plus" type="button">+</button> </div> </div>';
                 };

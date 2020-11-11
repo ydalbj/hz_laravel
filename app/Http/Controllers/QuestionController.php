@@ -76,8 +76,9 @@ class QuestionController extends Controller
                 $transformed[$i]['answer'] = $answers;
                 $transformed[$i]['answerdatafield'] = $answers_data_field;
             } else {
+                $this->alert('所有题目必须设置答案选项，包括填空题!');
                 // 比如填空题，如果没有设置answers,则把问题title作为answer显示
-                $transformed[$i]['answer'] = [$q['title']];
+                // $transformed[$i]['answer'] = [$q['title']];
             }
 
             $i++;
@@ -100,6 +101,7 @@ class QuestionController extends Controller
 
         $result = new Result();
         $result->subject_id = $id;
+        $result->score = $score;
         $result->results = json_encode($results);
         $result->save();
 
@@ -114,5 +116,10 @@ class QuestionController extends Controller
         $score = Answer::whereIn('id', $answer_ids)->sum('score');
         Log::debug('score:' . $score);
         return $score;
+    }
+
+    private function alert(string $message)
+    {
+        return view('alert', ['message' => $message]);
     }
 }

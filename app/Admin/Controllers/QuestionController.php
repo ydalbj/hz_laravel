@@ -29,7 +29,7 @@ class QuestionController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Question(), function (Grid $grid) {
+        return Grid::make(new Question(['answers']), function (Grid $grid) {
             $grid->column('id', 'ID')->sortable();
             // $grid->column('subject_id');
             // $grid->column('name');
@@ -38,30 +38,43 @@ class QuestionController extends AdminController
             // $grid->column('is_hide');
             $types = config('question.type');
             $grid->column('type')->select($types);
+            $subject_id = Request::input('subject_id');
+            $grid->answers('选项设置')->display(function($answers) use ($subject_id) {
+                $count = count($answers);
+
+                $data = $this->getKey();
+                $question_id = $data->id;
+                $view_url = "/admin/answers?question_id=$question_id&subject_id=$subject_id";
+                return "<a class='disable-outline' href='{$view_url}'>{$count}个选项</a>";
+            });
             // $grid->column('created_at');
             // $grid->column('updated_at')->sortable();
 
-            $grid->actions(function (Grid\Displayers\Actions $actions) {
+            $grid->actions(function (Grid\Displayers\Actions $actions) use ($subject_id) {
                 $actions->disableView();
                 $actions->disableEdit();
 
                 $data = $this->getKey();
                 $question_id = $data->id;
-                $actions->prepend('<a href="/admin/answers?question_id=' . $question_id . '"><i class="fa fa-eye"></i> 查看</a>');
+                $action_url = "/admin/answers?question_id=$question_id&subject_id=$subject_id";
+                $actions->prepend('<a href="' . $action_url . '"><i class="fa fa-eye"></i> 查看</a>');
             });
         
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->panel();
                 // $filter->equal('id');
         
-                $filter->equal('subject_id')->select(function () {
+                $filter->equal('subject_id', '问卷')->select(function () {
                     return Subject::pluck('title', 'id')->toArray();
                 });
             });
 
             $grid->disableCreateButton();
-            $create_url = '/admin/questions/create?subject_id=' . Request::input('subject_id');
+            $create_url = '/admin/questions/create?subject_id=' . $subject_id;
             $grid->tools('<a class="btn btn-primary disable-outline" href=' . $create_url . '>新增题目</a>');
+
+            $return_url = '/admin/subjects';
+            $grid->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回问题列表</a>');
         });
     }
 
@@ -97,7 +110,13 @@ class QuestionController extends AdminController
         return Form::make(new Question(), function (Form $form) {
             $subject_id = Request::input('subject_id');
             $form->display('id');
-            $form->text('subject_id')->value($subject_id)->required();
+            // $form->text('subject_id')->value($subject_id)->required();
+            $form->select('subject_id')
+                ->options(function () use ($subject_id) {
+                    $subject = Subject::find($subject_id);
+                    return [$subject->id => $subject->title];
+                })
+                ->default($subject_id);
             $form->hidden('name')->value('test');
             $form->text('title')->required();
             $form->radio('is_required')->options([0=>'否', 1=>'是'])->default(1)->required();
@@ -107,6 +126,20 @@ class QuestionController extends AdminController
         
             $form->display('created_at');
             $form->display('updated_at');
+            
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableList();
+                // $tools->disableView();
+            });
+
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
+                $footer->disableEditingCheck();
+                $footer->disableCreatingCheck();
+            });
+
+            $return_url = '/admin/questions?subject_id=' . Request::input('subject_id');
+            $form->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回</a>');
         });
     }
 }

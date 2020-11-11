@@ -44,7 +44,7 @@ class AnswerController extends AdminController
                 $filter->panel();
                 // $filter->equal('id');
         
-                $filter->equal('question_id')->select(function () {
+                $filter->equal('question_id', '问题')->select(function () {
                     $question_id = Request::input('question_id');
                     if (!$question_id) {
                         return '';
@@ -58,6 +58,13 @@ class AnswerController extends AdminController
                     return [$question->id => $question->title];
                 });
             });
+
+            $grid->disableCreateButton();
+            $create_url = '/admin/answers/create?question_id=' . Request::input('question_id');
+            $grid->tools('<a class="btn btn-primary disable-outline" href=' . $create_url . '>新增答案选项</a>');
+
+            $return_url = '/admin/questions?subject_id=' . Request::input('subject_id');
+            $grid->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回问题列表</a>');
         });
     }
 
@@ -86,10 +93,31 @@ class AnswerController extends AdminController
     protected function form()
     {
         return Form::make(new Answer(), function (Form $form) {
+            $question_id = Request::input('question_id');
             $form->display('id');
-            $form->text('question_id');
-            $form->text('title');
-            $form->text('score');
+            // $form->text('question_id')->value($question_id);
+            $form->select('question_id')
+                ->options(function () use ($question_id) {
+                    $question = Question::find($question_id);
+                    return [$question->id => $question->title];
+                })
+                ->default($question_id);
+                
+            $form->text('title')->required();
+            $form->text('score')->required()->default(0);
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableList();
+                // $tools->disableView();
+            });
+
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
+                $footer->disableEditingCheck();
+                $footer->disableCreatingCheck();
+            });
+
+            $return_url = '/admin/answers?question_id=' . Request::input('question_id');
+            $form->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回</a>');
         });
     }
 }
