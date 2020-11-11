@@ -39,7 +39,13 @@ class SubjectController extends AdminController
                 // append一个操作
                 $actions->prepend('<a href="/admin/questions?subject_id=' . $subject_id . '"><i class="fa fa-eye"></i> 查看</a>');
             });
-        
+
+            $grid->column('二维码')->qrcode(function () {
+                $data = $this->getKey();
+                $subject_id = $data->id;
+                return url('/subject/' . $subject_id);
+            }, 200, 200);
+                    
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
             });

@@ -13,6 +13,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
+    $router->get('/result/page', 'ResultPageController@index');
 
     $router->resource('subjects', 'SubjectController');
 
