@@ -36,6 +36,14 @@ class ResultController extends AdminController
 
                 $filter->equal('sex')->radio($sex_options);
             });
+
+            $grid->column('查看结果')->display(function () {
+                $result = $this->getKey();
+                $subject_id = $result->subject_id;
+                $id = $result->id;
+                $view_url = '/admin/result/page?id=' . $id . '&subject_id=' . $subject_id;
+                return "<a href='{$view_url}' target='_blank'><i class='fa fa-eye'></i>查看</a>";
+            });
             $grid->disableActions();
             $grid->disableBatchActions();
             $grid->disableCreateButton();

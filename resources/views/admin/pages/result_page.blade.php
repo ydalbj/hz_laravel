@@ -23,7 +23,7 @@
                                 <label for="todoChec{{$loop->index}}" class=""></label>
                                 {{$a->title}}
                             @else
-                                {{$results[$a->id]}}
+                                {{$results[$a->id] ?? ''}}
                             @endif
                             </div>
                         @endforeach
