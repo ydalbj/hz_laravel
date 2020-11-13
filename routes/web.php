@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\WeChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,5 @@ Route::redirect('/', '/admin');
 Route::get('/subject/{id}', [QuestionController::class, 'index'])->where('id', '[0-9]+');
 
 Route::post('/subject/{id}/answer', [QuestionController::class, 'answer'])->where('id', '[0-9]+');
+
+Route::any('/wechat', [WeChatController::class, 'serve']);

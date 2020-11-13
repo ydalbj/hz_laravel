@@ -156,7 +156,7 @@ window.onload = function() {
                 // );
                 // console.log(result);
             } else {
-                info.innerText = '你放弃了本次问卷的提交'
+                // info.innerText = '你放弃了本次问卷的提交'
             }
         })
     });};
