@@ -22,4 +22,6 @@ Route::group([
     $router->resource('answers', 'AnswerController');
 
     $router->resource('results', 'ResultController');
+
+    $router->resource('groups', 'GroupController');
 });

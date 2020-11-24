@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Question;
 
 class Subject extends Model
 {
@@ -13,5 +12,10 @@ class Subject extends Model
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
     }
 }

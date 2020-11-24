@@ -2,8 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Repositories\Group as RepositoriesGroup;
 use App\Admin\Repositories\Question;
 use App\Models\Subject;
+use App\Models\Group;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -47,8 +49,10 @@ class QuestionController extends AdminController
                 $view_url = "/admin/answers?question_id=$question_id&subject_id=$subject_id";
                 return "<a class='disable-outline' href='{$view_url}'>{$count}个选项</a>";
             });
-            // $grid->column('created_at');
-            // $grid->column('updated_at')->sortable();
+
+            $grid->column('group_id', '分组')->select(function ($group) use ($subject_id) {
+                return (new RepositoriesGroup())->getGroupsBySubjectId($subject_id);
+            });
 
             $grid->actions(function (Grid\Displayers\Actions $actions) use ($subject_id) {
                 $actions->disableView();
@@ -60,12 +64,16 @@ class QuestionController extends AdminController
                 $actions->prepend('<a href="' . $action_url . '"><i class="fa fa-eye"></i> 查看</a>');
             });
         
-            $grid->filter(function (Grid\Filter $filter) {
+            $grid->filter(function (Grid\Filter $filter) use ($subject_id) {
                 $filter->panel();
                 // $filter->equal('id');
         
                 $filter->equal('subject_id', '问卷')->select(function () {
                     return Subject::pluck('title', 'id')->toArray();
+                });
+
+                $filter->equal('group_id', '分组')->select(function () use ($subject_id) {
+                    return (new RepositoriesGroup())->getGroupsBySubjectId($subject_id);
                 });
             });
 
@@ -74,7 +82,7 @@ class QuestionController extends AdminController
             $grid->tools('<a class="btn btn-primary disable-outline" href=' . $create_url . '>新增题目</a>');
 
             $return_url = '/admin/subjects';
-            $grid->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回问题列表</a>');
+            $grid->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回问卷列表</a>');
         });
     }
 
@@ -90,6 +98,7 @@ class QuestionController extends AdminController
         return Show::make($id, new Question(), function (Show $show) {
             $show->field('id');
             $show->field('subject_id');
+            $show->field('group_id');
             $show->field('name');
             $show->field('title');
             $show->field('is_required');
@@ -117,6 +126,11 @@ class QuestionController extends AdminController
                     return [$subject->id => $subject->title];
                 })
                 ->default($subject_id);
+            $form->select('group_id', '所属分组')
+                ->options(function () use ($subject_id) {
+                    return (new RepositoriesGroup())->getGroupsBySubjectId($subject_id);
+                })
+                ->default(0);
             $form->hidden('name')->value('test');
             $form->text('title')->required();
             $form->radio('is_required')->options([0=>'否', 1=>'是'])->default(1)->required();
