@@ -30,6 +30,9 @@ class AnswerController extends AdminController
     protected function grid()
     {
         return Grid::make(new Answer(), function (Grid $grid) {
+            $question_id = Request::input('question_id');
+            $subject_id = Request::input('subject_id');
+
             $grid->column('id')->sortable();
             // $grid->column('question_id');
             $grid->column('title')->editable();
@@ -40,12 +43,11 @@ class AnswerController extends AdminController
                 $actions->disableEdit();
             });
         
-            $grid->filter(function (Grid\Filter $filter) {
+            $grid->filter(function (Grid\Filter $filter) use ($question_id) {
                 $filter->panel();
                 // $filter->equal('id');
         
-                $filter->equal('question_id', '问题')->select(function () {
-                    $question_id = Request::input('question_id');
+                $filter->equal('question_id', '问题')->select(function () use ($question_id) {
                     if (!$question_id) {
                         return '';
                     }
@@ -60,10 +62,10 @@ class AnswerController extends AdminController
             });
 
             $grid->disableCreateButton();
-            $create_url = '/admin/answers/create?question_id=' . Request::input('question_id');
+            $create_url = "/admin/answers/create?question_id=$question_id&subject_id=$subject_id";
             $grid->tools('<a class="btn btn-primary disable-outline" href=' . $create_url . '>新增答案选项</a>');
 
-            $return_url = '/admin/questions?subject_id=' . Request::input('subject_id');
+            $return_url = '/admin/questions?subject_id=' . $subject_id  ;
             $grid->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回问题列表</a>');
         });
     }
@@ -94,6 +96,7 @@ class AnswerController extends AdminController
     {
         return Form::make(new Answer(), function (Form $form) {
             $question_id = Request::input('question_id');
+            $subject_id = Request::input('subject_id');
             $form->display('id');
             // $form->text('question_id')->value($question_id);
             $form->select('question_id')
@@ -116,7 +119,7 @@ class AnswerController extends AdminController
                 $footer->disableCreatingCheck();
             });
 
-            $return_url = '/admin/answers?question_id=' . Request::input('question_id');
+            $return_url = "/admin/answers?question_id=$question_id&subject_id=$subject_id";
             $form->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回</a>');
         });
     }

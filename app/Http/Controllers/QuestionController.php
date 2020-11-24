@@ -6,6 +6,7 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Models\Answer;
 use App\Models\Result;
+use App\Models\Subject;
 use Illuminate\Support\Facades\Log;
 
 class QuestionController extends Controller
@@ -21,9 +22,12 @@ class QuestionController extends Controller
             ->toArray();
 
         $questions = $this->transformed($questions);
-        return view('question', [
+        
+        return view('question2', [
             'questions' => json_encode($questions),
+            'questions2' => $questions,
             'subject_id' => $id,
+            'subject' => Subject::find($id),
         ]);
     }
 
@@ -32,6 +36,7 @@ class QuestionController extends Controller
         $transformed = [];
         $i = 0;
         foreach ($questions as $q) {
+            $transformed[$i] = $q;
             switch ($q['type']) {
                 // 选择题
                 case 0:

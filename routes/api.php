@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::get('/subject/{id}', [ApiController::class, 'subject'])->where(['id', '[0-9]+']);
+Route::post('/subject/{id}/answer', [ApiController::class, 'answer'])->where('id', '[0-9]+');

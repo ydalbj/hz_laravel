@@ -16,6 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('subject_id')->index();
+            $table->unsignedInteger('group_id')->default(0);
             $table->string('name', 50);
             $table->string('title', 255);
             $table->unsignedTinyInteger('is_required')->comment('是否必填')->default(1);
