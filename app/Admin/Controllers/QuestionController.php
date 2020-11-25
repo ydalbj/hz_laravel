@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Repositories\Group as RepositoriesGroup;
 use App\Admin\Repositories\Question;
 use App\Models\Subject;
+use App\Models\Answer;
 use App\Models\Group;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -155,5 +156,19 @@ class QuestionController extends AdminController
             $return_url = '/admin/questions?subject_id=' . Request::input('subject_id');
             $form->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回</a>');
         });
+    }
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // 删除关联答案
+        Answer::where('question_id', $id)->delete();
+        return parent::destroy($id);
     }
 }
