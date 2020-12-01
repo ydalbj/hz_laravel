@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Group as RepositoriesGroup;
 use App\Admin\Repositories\Question;
+use App\Common\AgeHelper;
+use App\Common\UnicodeHelper;
 use App\Models\Subject;
 use App\Models\Answer;
 use App\Models\Group;
@@ -55,6 +57,25 @@ class QuestionController extends AdminController
                 return (new RepositoriesGroup())->getGroupsBySubjectId($subject_id);
             });
 
+            $grid->column('min_age', '最小适用月龄(-1代表无限制)')
+                ->display(function ($age) {
+                    return AgeHelper::monthInt2String($age);
+                })
+                ->editable();
+            $grid->column('max_age', '最小适用月龄(-1代表无限制)')
+                ->display(function ($age) {
+                    return AgeHelper::monthInt2String($age);
+                })
+                ->editable();
+            $grid->column('for_sex', '适用性别')->select(function () {
+                return [
+                    -1 => '无限制',
+                    0 => '女孩',
+                    1 => '男孩',
+                ];
+            });
+            $grid->combine('适用年龄/性别', ['min_age', 'max_age', 'for_sex']);
+
             $grid->actions(function (Grid\Displayers\Actions $actions) use ($subject_id) {
                 $actions->disableView();
                 $actions->disableEdit();
@@ -105,6 +126,9 @@ class QuestionController extends AdminController
             $show->field('is_required');
             $show->field('is_hide');
             $show->field('type');
+            $show->field('min_age');
+            $show->field('max_age');
+            $show->field('for_sex');
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -138,6 +162,9 @@ class QuestionController extends AdminController
             $form->hidden('is_hide')->value(0);
             $types = config('question.type');
             $form->radio('type')->options($types)->required();
+            $form->text('min_age');
+            $form->text('max_age');
+            $form->text('for_sex'); //todo
         
             $form->display('created_at');
             $form->display('updated_at');
@@ -170,5 +197,28 @@ class QuestionController extends AdminController
         // 删除关联答案
         Answer::where('question_id', $id)->delete();
         return parent::destroy($id);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id)
+    {
+        $min_age = Request::input('min_age');
+        $max_age = Request::input('max_age');
+
+        $data = [];
+        if ($min_age) {
+            $data['min_age'] = AgeHelper::string2MonthInt($min_age);
+        }
+
+        if ($max_age) {
+            $data['max_age'] = AgeHelper::string2MonthInt($max_age);
+        }
+        return $this->form()->update($id, $data);
     }
 }
