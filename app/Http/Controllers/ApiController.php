@@ -31,6 +31,23 @@ class ApiController extends Controller
         }
 
         $results = json_decode($results, true);
+        /*
+        $results = [
+            2 => true,
+            12 => 3,
+            14 => true,
+            35 => true ,
+            38 => true ,
+            40 => true ,
+            42 => true ,
+            46 => true ,
+            49 => true ,
+            50 => true ,
+            53 => true ,
+            55 => true ,
+            56 => true ,
+        ];
+        */
 
         // 计算分组结果
         $group_results = $resultService->getGroupResult($results);
@@ -59,6 +76,7 @@ class ApiController extends Controller
             $data['group']['titles'][$i] = $v['title'];
             $data['group']['levels'][$i] = $v['level'];
             $data['group']['scores'][$i] = $v['score'];
+            $i++;
         }
 
         return $data;
