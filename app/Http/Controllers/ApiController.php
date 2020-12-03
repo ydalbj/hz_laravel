@@ -42,9 +42,26 @@ class ApiController extends Controller
         $result->subject_id = $id;
         $result->score = $score;
         $result->results = json_encode($results);
-        $result->group_results = json_encode($results);
+        $result->group_results = json_encode($group_results);
         $result->save();
-        return $score;
+        return $this->formatResult($result);
+    }
+
+    private function formatResult(Result $result)
+    {
+        $data = [];
+        $data['subject_id'] = $result->subject_id;
+        $data['score'] = $result->score;
+        $group_results = json_decode($result->group_results, true);
+
+        $i = 0;
+        foreach ($group_results as $v) {
+            $data['group']['titles'][$i] = $v['title'];
+            $data['group']['levels'][$i] = $v['level'];
+            $data['group']['scores'][$i] = $v['score'];
+        }
+
+        return $data;
     }
     
     public function calculateScore(array $results)
