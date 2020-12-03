@@ -161,10 +161,10 @@ class QuestionController extends AdminController
             $form->radio('is_required')->options([0=>'否', 1=>'是'])->default(1)->required();
             $form->hidden('is_hide')->value(0);
             $types = config('question.type');
-            $form->radio('type')->options($types)->required();
+            $form->radio('type')->options($types)->default(0)->required();
             $form->text('min_age', '最小适用年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
             $form->text('max_age', '最大适用年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
-            $form->select('for_sex', '适用性别')->options([-1 => '无限制', 0 => '女孩', 1=> '男孩']); //todo
+            $form->select('for_sex', '适用性别')->options([-1 => '无限制', 0 => '女孩', 1=> '男孩'])->default(-1);
         
             $form->display('created_at');
             $form->display('updated_at');
