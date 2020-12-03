@@ -162,9 +162,9 @@ class QuestionController extends AdminController
             $form->hidden('is_hide')->value(0);
             $types = config('question.type');
             $form->radio('type')->options($types)->required();
-            $form->text('min_age');
-            $form->text('max_age');
-            $form->text('for_sex'); //todo
+            $form->text('min_age', '最小适用年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
+            $form->text('max_age', '最大适用年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
+            $form->select('for_sex', '适用性别')->options([-1 => '无限制', 0 => '女孩', 1=> '男孩']); //todo
         
             $form->display('created_at');
             $form->display('updated_at');
@@ -220,5 +220,36 @@ class QuestionController extends AdminController
             $data['max_age'] = AgeHelper::string2MonthInt($max_age);
         }
         return $this->form()->update($id, $data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return mixed
+     */
+    public function store()
+    {
+        $min_age = Request::input('min_age');
+        $max_age = Request::input('max_age');
+        $for_sex = Request::input('for_sex');
+
+        $data = Request::all();
+
+        // 默认初始化为无限制
+        $data['min_age'] = $data['max_age'] = $data['for_sex'] = -1;
+
+        if ($min_age) {
+            $data['min_age'] = AgeHelper::string2MonthInt($min_age);
+        }
+
+        if ($max_age) {
+            $data['max_age'] = AgeHelper::string2MonthInt($max_age);
+        }
+
+        if (isset($for_sex)) {
+            $data['for_sex'] = $for_sex;
+        }
+
+        return $this->form()->store($data);
     }
 }
