@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\GroupService;
 use Illuminate\Console\Command;
 
 class CalculateGroupsState extends Command
@@ -11,7 +12,7 @@ class CalculateGroupsState extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'update:group {--subject_id=1}';
 
     /**
      * The console command description.
@@ -35,8 +36,10 @@ class CalculateGroupsState extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(GroupService $groupService)
     {
-        return 0;
+        $subject_id = $this->option('subject_id');
+        $groupService->updateSubjectGroupsState($subject_id);
+        $this->info('done');
     }
 }
