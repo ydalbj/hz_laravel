@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\Answer;
+use App\Services\ResultService;
 use Log;
 
 class ApiController extends Controller
@@ -22,7 +23,7 @@ class ApiController extends Controller
         return $questions;
     }
 
-    public function answer(Request $request, $id)
+    public function answer(Request $request, $id, ResultService $resultService)
     {
         $results = $request->input('results');
         if (!$results) {
@@ -31,6 +32,9 @@ class ApiController extends Controller
 
         $results = json_decode($results, true);
 
+        // 计算分组结果
+        $group_results = $resultService->getGroupResult($results);
+
         // 计算结果
         $score = $this->calculateScore($results);
 
@@ -38,6 +42,7 @@ class ApiController extends Controller
         $result->subject_id = $id;
         $result->score = $score;
         $result->results = json_encode($results);
+        $result->group_results = json_encode($results);
         $result->save();
         return $score;
     }
