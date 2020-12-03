@@ -43,7 +43,8 @@ class ResultService
             $group_results[$group->id]['title'] = $group->title;
 
             // 按5级，取四舍五入
-            $group_results[$group->id]['level'] = round($group_results[$group->id]['score'] * 5);
+            // 因为分数越低，等级越高，所以用5-
+            $group_results[$group->id]['level'] = 5 - round($group_results[$group->id]['score'] * 5/$group->max_score);
         }
 
         return $group_results;
