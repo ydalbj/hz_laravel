@@ -24,6 +24,9 @@ class ResultService
         $data = [];
         foreach ($answers as $a) {
             $group_id = $a->question->group_id;
+            if (!$group_id) {
+                continue;
+            }
             $data[$group_id]['score'] = ($data[$group_id]['score'] ?? 0) + $a->score;
         }
 
