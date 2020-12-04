@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\Answer;
+use App\Models\GroupLevel;
 use App\Services\ResultService;
 use Log;
 
@@ -71,14 +72,45 @@ class ApiController extends Controller
         $data['score'] = $result->score;
         $group_results = json_decode($result->group_results, true);
 
+        $group_levels = [];
         $i = 0;
-        foreach ($group_results as $v) {
+        foreach ($group_results as $group_id => $v) {
             $data['group']['titles'][$i] = $v['title'];
             $data['group']['levels'][$i] = $v['level'];
             $data['group']['scores'][$i] = $v['score'];
+
+            $group_levels[$i]['group_id'] = $group_id;
+            $group_levels[$i]['level'] = $v['level'];
             $i++;
         }
 
+        $query = GroupLevel::query();
+        $is_first = true;
+        $where = 'where';
+        foreach ($group_levels as $v) {
+            if (!$is_first) {
+                $where = 'orWhere';
+            }
+            $query->{$where}(function ($sub) use ($v) {
+                $sub->where('group_id', $v['group_id'])->where('level', $v['level']);
+            });
+
+            $is_first = false;
+        }
+
+        $results = $query->with(['group' => function ($sub) {
+                $sub->select('id', 'title');
+            }])
+            ->select('group_id', 'evaluation')
+            ->get();
+
+        $group_levels_data = [];
+        foreach ($results as $k => $v) {
+            $group_levels_data[$k]['title'] = $v->group->title;
+            $group_levels_data[$k]['evaluation'] = $v->evaluation;
+        }
+
+        $data['group_level'] = $group_levels_data;
         return $data;
     }
     
