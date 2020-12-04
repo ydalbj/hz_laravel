@@ -51,14 +51,23 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
+     * @property Grid\Column|Collection group_id
+     * @property Grid\Column|Collection level
+     * @property Grid\Column|Collection evaluation
      * @property Grid\Column|Collection subject_id
+     * @property Grid\Column|Collection question_count
+     * @property Grid\Column|Collection max_score
      * @property Grid\Column|Collection email
      * @property Grid\Column|Collection token
-     * @property Grid\Column|Collection group_id
      * @property Grid\Column|Collection is_required
      * @property Grid\Column|Collection is_hide
      * @property Grid\Column|Collection type
+     * @property Grid\Column|Collection min_age
+     * @property Grid\Column|Collection max_age
+     * @property Grid\Column|Collection for_sex
+     * @property Grid\Column|Collection max_option_score
      * @property Grid\Column|Collection results
+     * @property Grid\Column|Collection group_results
      * @property Grid\Column|Collection age
      * @property Grid\Column|Collection sex
      * @property Grid\Column|Collection email_verified_at
@@ -103,14 +112,23 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
+     * @method Grid\Column|Collection group_id(string $label = null)
+     * @method Grid\Column|Collection level(string $label = null)
+     * @method Grid\Column|Collection evaluation(string $label = null)
      * @method Grid\Column|Collection subject_id(string $label = null)
+     * @method Grid\Column|Collection question_count(string $label = null)
+     * @method Grid\Column|Collection max_score(string $label = null)
      * @method Grid\Column|Collection email(string $label = null)
      * @method Grid\Column|Collection token(string $label = null)
-     * @method Grid\Column|Collection group_id(string $label = null)
      * @method Grid\Column|Collection is_required(string $label = null)
      * @method Grid\Column|Collection is_hide(string $label = null)
      * @method Grid\Column|Collection type(string $label = null)
+     * @method Grid\Column|Collection min_age(string $label = null)
+     * @method Grid\Column|Collection max_age(string $label = null)
+     * @method Grid\Column|Collection for_sex(string $label = null)
+     * @method Grid\Column|Collection max_option_score(string $label = null)
      * @method Grid\Column|Collection results(string $label = null)
+     * @method Grid\Column|Collection group_results(string $label = null)
      * @method Grid\Column|Collection age(string $label = null)
      * @method Grid\Column|Collection sex(string $label = null)
      * @method Grid\Column|Collection email_verified_at(string $label = null)
@@ -160,14 +178,23 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
+     * @property Show\Field|Collection group_id
+     * @property Show\Field|Collection level
+     * @property Show\Field|Collection evaluation
      * @property Show\Field|Collection subject_id
+     * @property Show\Field|Collection question_count
+     * @property Show\Field|Collection max_score
      * @property Show\Field|Collection email
      * @property Show\Field|Collection token
-     * @property Show\Field|Collection group_id
      * @property Show\Field|Collection is_required
      * @property Show\Field|Collection is_hide
      * @property Show\Field|Collection type
+     * @property Show\Field|Collection min_age
+     * @property Show\Field|Collection max_age
+     * @property Show\Field|Collection for_sex
+     * @property Show\Field|Collection max_option_score
      * @property Show\Field|Collection results
+     * @property Show\Field|Collection group_results
      * @property Show\Field|Collection age
      * @property Show\Field|Collection sex
      * @property Show\Field|Collection email_verified_at
@@ -212,14 +239,23 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
+     * @method Show\Field|Collection group_id(string $label = null)
+     * @method Show\Field|Collection level(string $label = null)
+     * @method Show\Field|Collection evaluation(string $label = null)
      * @method Show\Field|Collection subject_id(string $label = null)
+     * @method Show\Field|Collection question_count(string $label = null)
+     * @method Show\Field|Collection max_score(string $label = null)
      * @method Show\Field|Collection email(string $label = null)
      * @method Show\Field|Collection token(string $label = null)
-     * @method Show\Field|Collection group_id(string $label = null)
      * @method Show\Field|Collection is_required(string $label = null)
      * @method Show\Field|Collection is_hide(string $label = null)
      * @method Show\Field|Collection type(string $label = null)
+     * @method Show\Field|Collection min_age(string $label = null)
+     * @method Show\Field|Collection max_age(string $label = null)
+     * @method Show\Field|Collection for_sex(string $label = null)
+     * @method Show\Field|Collection max_option_score(string $label = null)
      * @method Show\Field|Collection results(string $label = null)
+     * @method Show\Field|Collection group_results(string $label = null)
      * @method Show\Field|Collection age(string $label = null)
      * @method Show\Field|Collection sex(string $label = null)
      * @method Show\Field|Collection email_verified_at(string $label = null)

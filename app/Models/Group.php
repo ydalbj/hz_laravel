@@ -19,4 +19,9 @@ class Group extends Model
 	{
 		return $this->hasMany(Qeustion::class);
 	}
+
+	public function levels()
+	{
+		return $this->hasMany(GroupLevel::class);
+	}
 }

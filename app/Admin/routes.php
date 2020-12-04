@@ -24,4 +24,6 @@ Route::group([
     $router->resource('results', 'ResultController');
 
     $router->resource('groups', 'GroupController');
+
+    $router->resource('group_levels', 'GroupLevelController');
 });

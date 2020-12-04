@@ -32,15 +32,12 @@ class GroupController extends AdminController
             $subjects = $query->pluck('title', 'id')->toArray();
             $grid->column('subject_id', '所属主题')->select($subjects);
 
-            // $grid->selector(function (Grid\Tools\Selector $selector) {
-            //     $selector->selectOne('brand', '品牌', [
-            //         1 => '华为',
-            //         2 => '小米',
-            //         3 => 'OPPO',
-            //         4 => 'vivo',
-            //     ]);
-            // });
-
+            $grid->levels('等级设置')->display(function ($leves) {
+                $data = $this->getKey();
+                $group_id = $data->id;
+                $view_url = "/admin/group_levels?group_id=$group_id";
+                return "<a class='disable-outline' href='{$view_url}'>设置等级</a>";
+            });
 
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
