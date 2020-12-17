@@ -25,7 +25,7 @@ class GroupLevelController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('group_id');
             $grid->column('level')->editable();
-            $grid->column('evaluation');
+            $grid->column('evaluation')->editable();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
         
