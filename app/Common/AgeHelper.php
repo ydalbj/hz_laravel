@@ -9,6 +9,10 @@ class AgeHelper
     // 1岁2个月转换为14
     public static function string2MonthInt(string $age)
     {
+        if ($age === '-1' || $age === '无限制') {
+            return -1;
+        }
+        
         $age = str_replace(' ', '', $age);
         // preg_match_all('/(\d+).*岁.*(\d)*/u', $age, $matchs);
         preg_match_all('/\d+/', $age, $matchs);
