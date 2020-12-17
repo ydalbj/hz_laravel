@@ -62,7 +62,7 @@ class QuestionController extends AdminController
                     return AgeHelper::monthInt2String($age);
                 })
                 ->editable();
-            $grid->column('max_age', '最小适用月龄(-1代表无限制)')
+            $grid->column('max_age', '最大适用月龄(-1代表无限制)')
                 ->display(function ($age) {
                     return AgeHelper::monthInt2String($age);
                 })
