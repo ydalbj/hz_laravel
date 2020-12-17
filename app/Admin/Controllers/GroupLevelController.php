@@ -84,7 +84,7 @@ class GroupLevelController extends AdminController
                 ->default($group_id);
                     
             $form->number('level')->min(0)->max(5)->default(3);
-            $form->text('evaluation');
+            $form->text('evaluation')->editable();
         
             $form->display('created_at');
             $form->display('updated_at');
