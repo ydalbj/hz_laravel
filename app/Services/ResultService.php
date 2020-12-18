@@ -54,8 +54,13 @@ class ResultService
             $group_score = $this->getGroupTotalScoreByAgeSex($group->id, $age, $sex);
 
             // 按5级，取四舍五入
+            // 如果选项设置为`不能干什么`
             // 因为分数越低，等级越高，所以用5-
-            $group_results[$group->id]['level'] = 5 - round($group_results[$group->id]['score'] * 5/$group_score);
+            // $group_results[$group->id]['level'] = 5 - round($group_results[$group->id]['score'] * 5/$group_score);
+
+            // 如果设置`能干什么`
+            // 因为分数越高，等级越高
+            $group_results[$group->id]['level'] =  round($group_results[$group->id]['score'] * 5/$group_score);
         }
 
         return $group_results;
