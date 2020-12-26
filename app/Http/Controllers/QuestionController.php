@@ -16,7 +16,7 @@ class QuestionController extends Controller
         $questions = Question::where('subject_id', $id)
             ->where('is_hide', 0)
             ->with(['answers' => function ($query) {
-                $query->select('id', 'question_id', 'title');
+                $query->select('id', 'question_id', 'title', 'is_selected_pass');
             }])
             ->get()
             ->toArray();
