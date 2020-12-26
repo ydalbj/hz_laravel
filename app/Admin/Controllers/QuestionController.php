@@ -40,6 +40,7 @@ class QuestionController extends AdminController
             // $grid->column('name');
             $grid->column('title')->editable();
             $grid->column('is_required')->switch();
+            $grid->column('is_hide')->switch();
             // $grid->column('is_hide');
             $types = config('question.type');
             $grid->column('type')->select($types);
