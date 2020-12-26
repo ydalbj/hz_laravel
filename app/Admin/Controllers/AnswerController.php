@@ -36,7 +36,9 @@ class AnswerController extends AdminController
             $grid->column('id')->sortable();
             // $grid->column('question_id');
             $grid->column('title')->editable();
-            $grid->column('score')->editable();
+            // $grid->column('score')->editable();
+            $grid->column('is_selected_pass', '选中后继续(针对`以上都做不到`的选项)')->switch();
+
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 $actions->disableView();
@@ -82,6 +84,7 @@ class AnswerController extends AdminController
         return Show::make($id, new Answer(), function (Show $show) {
             $show->field('id');
             $show->field('question_id');
+            $show->field('is_selected_pass');
             $show->field('title');
             $show->field('score');
         });
@@ -107,7 +110,8 @@ class AnswerController extends AdminController
                 ->default($question_id);
                 
             $form->text('title')->required();
-            $form->text('score')->required()->default(0);
+            // $form->text('score')->required()->default(0);
+            $form->radio('is_selected_pass', '选中后继续(针对`以上都做不到`的选项)')->options([0=>'否', 1=>'是'])->default(0)->required();
             $form->tools(function (Form\Tools $tools) {
                 $tools->disableList();
                 // $tools->disableView();

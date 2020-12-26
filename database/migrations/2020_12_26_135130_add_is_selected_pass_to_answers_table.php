@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnswersTable extends Migration
+class AddIsSelectedPassToAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('answers', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('question_id')->index();
-            $table->string('title', '255');
-            $table->tinyInteger('score')->default(0);
-            $table->timestamps();
+        Schema::table('answers', function (Blueprint $table) {
+            $table->unsignedTinyInteger('is_selected_pass')->default(0)->comment('选中之后是否继续本组题目');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('answers');
+        Schema::table('answers', function (Blueprint $table) {
+            $table->dropColumn('is_selected_pass');
+        });
     }
 }
