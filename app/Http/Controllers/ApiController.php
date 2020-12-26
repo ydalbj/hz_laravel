@@ -16,6 +16,8 @@ class ApiController extends Controller
     {
         $questions = Question::where('subject_id', $id)
         ->where('is_hide', 0)
+        ->orderBy('group_id')
+        ->orderBy('base_age', 'desc')
         ->with(['answers' => function ($query) {
             $query->select('id', 'question_id', 'title');
         }])
