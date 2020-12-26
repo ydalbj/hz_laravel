@@ -57,6 +57,8 @@ class QuestionController extends AdminController
                 return (new RepositoriesGroup())->getGroupsBySubjectId($subject_id);
             });
 
+            // 适用年龄
+            /*
             $grid->column('min_age', '最小适用月龄(-1代表无限制)')
                 ->display(function ($age) {
                     return AgeHelper::monthInt2String($age);
@@ -75,6 +77,12 @@ class QuestionController extends AdminController
                 ];
             });
             $grid->combine('适用年龄/性别', ['min_age', 'max_age', 'for_sex']);
+            */
+            $grid->column('base_age', '基础年龄')
+                ->display(function ($age) {
+                    return AgeHelper::monthInt2String($age);
+                })
+                ->editable();
 
             $grid->actions(function (Grid\Displayers\Actions $actions) use ($subject_id) {
                 $actions->disableView();
@@ -126,6 +134,7 @@ class QuestionController extends AdminController
             $show->field('is_required');
             $show->field('is_hide');
             $show->field('type');
+            $show->field('base_age');
             $show->field('min_age');
             $show->field('max_age');
             $show->field('for_sex');
@@ -162,6 +171,7 @@ class QuestionController extends AdminController
             $form->hidden('is_hide')->value(0);
             $types = config('question.type');
             $form->radio('type')->options($types)->default(0)->required();
+            $form->text('base_age', '基础年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
             $form->text('min_age', '最小适用年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
             $form->text('max_age', '最大适用年龄')->help('请输入`几岁几个月`, 一定要用数字，比如1岁6个月');
             $form->select('for_sex', '适用性别')->options([-1 => '无限制', 0 => '女孩', 1=> '男孩'])->default(-1);
@@ -208,10 +218,16 @@ class QuestionController extends AdminController
      */
     public function update($id)
     {
+        $data = [];
+
+        $base_age = Request::input('base_age');
         $min_age = Request::input('min_age');
         $max_age = Request::input('max_age');
 
-        $data = [];
+        if ($base_age) {
+            $data['base_age'] = AgeHelper::string2MonthInt($base_age);
+        }
+
         if ($min_age) {
             $data['min_age'] = AgeHelper::string2MonthInt($min_age);
         }
@@ -219,6 +235,7 @@ class QuestionController extends AdminController
         if ($max_age) {
             $data['max_age'] = AgeHelper::string2MonthInt($max_age);
         }
+
         return $this->form()->update($id, $data);
     }
 
