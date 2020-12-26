@@ -59,7 +59,6 @@ class QuestionController extends AdminController
             });
 
             // 适用年龄
-            /*
             $grid->column('min_age', '最小适用月龄(-1代表无限制)')
                 ->display(function ($age) {
                     return AgeHelper::monthInt2String($age);
@@ -78,7 +77,7 @@ class QuestionController extends AdminController
                 ];
             });
             $grid->combine('适用年龄/性别', ['min_age', 'max_age', 'for_sex']);
-            */
+            
             $grid->column('base_age', '基础年龄')
                 ->display(function ($age) {
                     return AgeHelper::monthInt2String($age);
