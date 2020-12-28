@@ -34,23 +34,7 @@ class ApiController extends Controller
         }
 
         $results = json_decode($results, true);
-        /*
-        $results = [
-            2 => true,
-            12 => 3,
-            14 => true,
-            35 => true ,
-            38 => true ,
-            40 => true ,
-            42 => true ,
-            46 => true ,
-            49 => true ,
-            50 => true ,
-            53 => true ,
-            55 => true ,
-            56 => true ,
-        ];
-        */
+        $basic_info = $request->input('basic');
 
         // 计算分组结果
         $group_results = $resultService->getGroupResult($results);
