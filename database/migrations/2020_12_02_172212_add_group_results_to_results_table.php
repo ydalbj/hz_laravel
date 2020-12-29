@@ -15,7 +15,7 @@ class AddGroupResultsToResultsTable extends Migration
     {
         Schema::table('results', function (Blueprint $table) {
             //ALTER TABLE `results` ADD `group_results` JSON NOT NULL AFTER `results`;
-            $table->json('group_results', 255)->comment('分组结果');
+            $table->json('group_results', 255)->nullable()->comment('分组结果');
         });
     }
 

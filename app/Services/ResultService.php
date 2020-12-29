@@ -105,7 +105,6 @@ class ResultService
                 $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
             }
         }
-        dd($data);
 
         return $data;
     }
