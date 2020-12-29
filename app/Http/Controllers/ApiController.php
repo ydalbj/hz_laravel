@@ -35,8 +35,8 @@ class ApiController extends Controller
             return "非法请求";
         }
 
-        $results = json_decode($results, true);
-        $basic_info = json_decode($basic_info, true);
+        // $results = json_decode($results, true);
+        // $basic_info = json_decode($basic_info, true);
         if (!isset($basic_info['birthday'])) {
             return '生日不对';
         }
@@ -52,7 +52,7 @@ class ApiController extends Controller
 
         // 计算分组结果
         // $group_results = $resultService->getGroupResult($results);
-        $group_evaluations = $resultService->getGroupEvaluations($results, $basic_info['age']);
+        $group_evaluations = $resultService->getGroupEvaluations($results, $month_age);
 
         // 计算结果
         $score = $this->calculateScore($results);
@@ -71,17 +71,18 @@ class ApiController extends Controller
 
     private function makeUpBasicInfo2Result(Result $result, array $basic_info)
     {
-        $result->wechat_name = $basic_info['wechat_name'];
-        $result->telephone = $basic_info['telephone'];
+        $result->wechat_name = $basic_info['wechat_name'] ?? '';
+        if ($basic_info['telephone']) {
+            $result->telephone = $basic_info['telephone'];
+        }
         $result->sex_string = $basic_info['sex'];
-        $result->occupation = $basic_info['occupation'];
+        $result->occupation = $basic_info['occupation'] ?? '';
         $result->birth_info = $basic_info['birth_info'];
         $result->birth_order = $basic_info['birth_order'];
         $result->who_take_care = $basic_info['who_take_care'];
-        $result->region = $basic_info['region'];
+        $result->region = implode('', $basic_info['region']);
         $result->birthday = $basic_info['birthday'];
-        $result->birth_situations = json_decode($basic_info['birth_situations'], true);
-        $result->group_evaluations = json_decode($basic_info['group_evaluations'], true);
+        $result->birth_situations = json_encode($basic_info['birth_situations']);
 
         return $result;
     }

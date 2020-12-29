@@ -48,7 +48,6 @@ class ResultService
         $group_ids = array_keys($group_results);
 
         $groups = Group::whereIn('id', $group_ids)->get();
-
         foreach ($groups as $group) {
             $group_results[$group->id]['title'] = $group->title;
 
@@ -106,6 +105,7 @@ class ResultService
                 $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
             }
         }
+        dd($data);
 
         return $data;
     }
