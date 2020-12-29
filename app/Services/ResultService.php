@@ -104,6 +104,8 @@ class ResultService
                 $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
                 $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
             }
+            
+            $data[$group_id]['group_name'] = $q->group->title;
         }
 
         return $data;
