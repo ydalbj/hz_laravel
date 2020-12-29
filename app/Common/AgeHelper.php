@@ -48,4 +48,19 @@ class AgeHelper
 
         return $content;
     }
+
+    public static function getMonthAgeFromBirthday(string $birthday)
+    {
+        list($y1, $m1, $d1) = explode('-', $birthday);
+
+        if (!isset($m1) || !isset($d1)) {
+            return null;
+        }
+
+        list($y2, $m2, $d2) = explode('-', date('Y-m-d'));
+
+        $month_age = ($y2 - $y1) * 12 + ($m2 - $m1) + (($d2 < $d1) ? -1 : 0);
+
+        return $month_age;
+    }
 }

@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Answer;
 use App\Models\Group;
+use App\Models\Question;
 use App\Services\GroupScoreTrait;
 
 class ResultService
@@ -64,5 +65,67 @@ class ResultService
         }
 
         return $group_results;
+    }
+
+    public function getGroupEvaluations(array $results, int $month_age)
+    {
+        if (empty($results)) {
+            return [];
+        }
+
+        $question_ids = array_keys($results);
+        $questions = Question::whereIn('id', $question_ids)
+            ->with('answers', function ($query) {
+                $query->select('id', 'question_id', 'title', 'is_selected_pass');
+            })
+            ->with('group', function ($query) {
+                $query->select('id', 'title', 'is_age_standard');
+            })
+            ->select('id', 'group_id', 'base_age')
+            ->get();
+
+        $data = [];
+        foreach ($questions as $q) {
+            $group_id = $q->group_id;
+            if (!$group_id) {
+                continue;
+            }
+
+            $answer_ids = $results[$q->id];
+            if ($q->group->is_age_standard) {
+                $calculated_age = $this->calculateAgeStandardByAnswers($q->answers, $answer_ids, $month_age, $q->base_age);
+                if (!isset($calculated_age)) {
+                    // 以上都做不到的情况，不记录年龄
+                    continue;
+                }
+
+                $data[$group_id]['age_standard'] = $calculated_age;
+                $data[$group_id]['score'] = round(100 * $calculated_age / $month_age);
+            } else {
+                $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
+                $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
+            }
+        }
+
+        return $data;
+    }
+
+    private function calculateAgeStandardByAnswers($answers, $selected_answer_ids, $month_age, $base_age)
+    {
+        $pass_answers = $answers->whereIn('id', $selected_answer_ids)->where('is_selected_pass', 1);
+        // 如果选中了`都不做到`,则不符合年龄标准跳过
+        if (!$pass_answers->isEmpty()) {
+            return null;
+        }
+
+        $calculated_age = $base_age + round(count($selected_answer_ids) * 6 / (count($answers) - 1));
+
+        $max_age = 6 * 12; // 最大年龄6岁
+        // 如果计算年龄等于max_age, 且孩子月龄大于等于max_age，则标准为当年年龄
+        if ($calculated_age >= $max_age && $month_age >= $max_age) {
+            $calculated_age = $month_age;
+        }
+
+        return $calculated_age;
     }
 }

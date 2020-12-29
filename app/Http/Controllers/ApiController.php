@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\AgeHelper;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Result;
@@ -29,26 +30,60 @@ class ApiController extends Controller
     public function answer(Request $request, $id, ResultService $resultService)
     {
         $results = $request->input('results');
-        if (!$results) {
+        $basic_info = $request->input('basic');
+        if (!$results || !$basic_info) {
             return "非法请求";
         }
 
         $results = json_decode($results, true);
-        $basic_info = $request->input('basic');
+        $basic_info = json_decode($basic_info, true);
+        if (!isset($basic_info['birthday'])) {
+            return '生日不对';
+        }
+
+        $month_age = AgeHelper::getMonthAgeFromBirthday($basic_info['birthday']);
+        if (!isset($month_age)) {
+            return '生日格式不正确';
+        }
+
+        if ($month_age < 0) {
+            return '生日不能大于当前日期';
+        }
 
         // 计算分组结果
-        $group_results = $resultService->getGroupResult($results);
+        // $group_results = $resultService->getGroupResult($results);
+        $group_evaluations = $resultService->getGroupEvaluations($results, $basic_info['age']);
 
         // 计算结果
         $score = $this->calculateScore($results);
 
         $result = new Result();
+        $result = $this->makeUpBasicInfo2Result($result, $basic_info);
         $result->subject_id = $id;
         $result->score = $score;
         $result->results = json_encode($results);
-        $result->group_results = json_encode($group_results);
+        // $result->group_results = json_encode($group_results);
+        $result->group_evaluations = json_encode($group_evaluations);
         $result->save();
-        return $this->formatResult($result);
+        return $result;
+        // return $this->formatResult($result);
+    }
+
+    private function makeUpBasicInfo2Result(Result $result, array $basic_info)
+    {
+        $result->wechat_name = $basic_info['wechat_name'];
+        $result->telephone = $basic_info['telephone'];
+        $result->sex_string = $basic_info['sex'];
+        $result->occupation = $basic_info['occupation'];
+        $result->birth_info = $basic_info['birth_info'];
+        $result->birth_order = $basic_info['birth_order'];
+        $result->who_take_care = $basic_info['who_take_care'];
+        $result->region = $basic_info['region'];
+        $result->birthday = $basic_info['birthday'];
+        $result->birth_situations = json_decode($basic_info['birth_situations'], true);
+        $result->group_evaluations = json_decode($basic_info['group_evaluations'], true);
+
+        return $result;
     }
 
     private function formatResult(Result $result)

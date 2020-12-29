@@ -13,7 +13,7 @@ class AddBasicColumnsToAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::table('answers', function (Blueprint $table) {
+        Schema::table('results', function (Blueprint $table) {
             $table->string('wechat_name', 100)->default('')->comment('微信号');
             $table->unsignedInteger('telephone')->nullable()->comment('手机号');
             $table->string('sex_string', 10)->default('')->comment('性别');
@@ -35,7 +35,7 @@ class AddBasicColumnsToAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::table('answers', function (Blueprint $table) {
+        Schema::table('results', function (Blueprint $table) {
             $table->dropColumn('wechat_name');
             $table->dropColumn('telephone');
             $table->dropColumn('sex_string');
