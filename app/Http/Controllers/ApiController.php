@@ -54,13 +54,15 @@ class ApiController extends Controller
         // $group_results = $resultService->getGroupResult($results);
         $group_evaluations = $resultService->getGroupEvaluations($results, $month_age);
 
+        $average_score = round(array_sum(array_column($group_evaluations, 'score')) / count($group_evaluations));
+
         // 计算结果
-        $score = $this->calculateScore($results);
+        // $score = $this->calculateScore($results);
 
         $result = new Result();
         $result = $this->makeUpBasicInfo2Result($result, $basic_info);
         $result->subject_id = $id;
-        $result->score = $score;
+        $result->score = $average_score;
         $result->results = json_encode($results);
         // $result->group_results = json_encode($group_results);
         $result->group_evaluations = json_encode($group_evaluations);
