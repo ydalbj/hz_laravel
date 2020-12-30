@@ -39,15 +39,17 @@ JS;
         Admin::script($this->script());
 
         $subject_id = Request::input('subject_id');
-        $questions = Question::where('subject_id', $subject_id)->with('answers')->get();
         $id = Request::input('id');
         $result = Result::find($id);
-        $results = json_decode($result->results, true);
+        $answers = json_decode($result->results, true);
         $subject = Subject::find($subject_id);
+        $question_ids = array_keys($answers);
+        $questions = Question::whereIn('id', $question_ids)->with('answers')->get();
 
         return view('admin.pages.result_page', [
                 'questions' => $questions,
-                'results' => $results,
+                'result' => $result,
+                'user_answers' => $answers,
                 'title' => $subject->title,
                 'score' => $result->score,
             ])

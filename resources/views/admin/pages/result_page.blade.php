@@ -4,6 +4,51 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">基本信息</div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            微信名：{{$result->wechat_name ?? ''}}
+                        </li>
+                        <li>
+                            手机号：{{$result->telephone ?? ''}}
+                        </li>
+                        <li>
+                            职业：{{$result->occupation ?? ''}}
+                        </li>
+                        <li>
+                            生日：{{$result->birthday ?? ''}}
+                        </li>
+                        <li>
+                            性别：{{$result->sex_string ?? ''}}
+                        </li>
+                        <li>
+                            地区：{{$result->region ?? ''}}
+                        </li>
+                        <li>
+                            顺产/难产/剖腹产：{{$result->birthinfo ?? ''}}
+                        </li>
+                        <li>
+                            第几胎：{{$result->birthorder ?? ''}}
+                        </li>
+                        <li>
+                            谁带孩子：{{$result->whotakecare ?? ''}}
+                        </li>
+                        <li>
+                            孕期异常：
+                            @if (isset($result->birth_situations))
+                            @foreach ($result->birth_situations as $v)
+                                {{$v}}
+                            @endforeach
+                            @endif
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div
             @foreach ($questions as $q)
                 <div class="card">
                     <div class="card-header">
@@ -18,12 +63,12 @@
                                     type="checkbox"
                                     name="a{{$loop->index}}"
                                     id="todoCheck{{$loop->index}}"
-                                    @if (isset($results[intval($a->id)])) checked @endif
+                                    @if (in_array($a->id, $user_answers[intval($q->id)])) checked @endif
                                 >
-                                <label for="todoChec{{$loop->index}}" class=""></label>
+                                <label for="todoCheck{{$loop->index}}" class=""></label>
                                 {{$a->title}}
                             @else
-                                {{$results[$a->id] ?? ''}}
+                                {{$user_answers[$q->id] ?? ''}}
                             @endif
                             </div>
                         @endforeach
