@@ -40,7 +40,7 @@
                         <li>
                             孕期异常：
                             @if (isset($result->birth_situations))
-                            @foreach ($result->birth_situations as $v)
+                            @foreach (json_decode($result->birth_situations, true) as $v)
                                 {{$v}}
                             @endforeach
                             @endif
