@@ -49,6 +49,23 @@
                 </div>
             </div>
             <div
+            <!--
+            <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">测评结果</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                                @if (isset($result->group_evaluations))
+                                @foreach (json_decode($result->group_evaluations, true) as $v)
+                                    <li>
+                                    </li>
+                                @endforeach
+                                @endif
+                        </ul>
+                    </div>
+            </div>
+-->
             @foreach ($questions as $q)
                 <div class="card">
                     <div class="card-header">
