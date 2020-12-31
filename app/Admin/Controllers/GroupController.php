@@ -87,6 +87,8 @@ class GroupController extends AdminController
             $form->display('id');
             $form->text('title');
 
+            $form->radio('is_age_standard', '是否按年龄划分')->options([0 => '否', 1 => '是'])->default(1);
+
             // $subject_id = Request::input('subject_id');
             $form->select('subject_id', '选择所属问卷')
                 ->options(function() {
