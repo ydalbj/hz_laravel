@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Common\AgeHelper;
 use App\Models\Answer;
 use App\Models\Group;
 use App\Models\Question;
@@ -93,12 +94,13 @@ class ResultService
             $answer_ids = $results[$q->id];
             if ($q->group->is_age_standard) {
                 $calculated_age = $this->calculateAgeStandardByAnswers($q->answers, $answer_ids, $month_age, $q->base_age);
-                if (!isset($calculated_age)) {
+                if (!isset($calculated_age) || $calculated_age < 0) {
                     // 以上都做不到的情况，不记录年龄
                     continue;
                 }
 
                 $data[$group_id]['age_standard'] = $calculated_age;
+                $data[$group_id]['age_formatted'] = AgeHelper::monthInt2String($calculated_age);
                 $data[$group_id]['score'] = round(100 * $calculated_age / $month_age);
             } else {
                 $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
