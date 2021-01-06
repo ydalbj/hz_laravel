@@ -12,4 +12,5 @@ return [
         1 => '男孩',
     ],
     'max_age' => 120, // 单位`月`,10岁
+    'default_subject_id' => 1,
 ];

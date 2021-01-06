@@ -31,7 +31,7 @@ class AnswerController extends AdminController
     {
         return Grid::make(new Answer(), function (Grid $grid) {
             $question_id = Request::input('question_id');
-            $subject_id = Request::input('subject_id');
+            $subject_id = Request::input('subject_id') ?? config('question.default_subject_id');
 
             $grid->column('id')->sortable();
             // $grid->column('question_id');
@@ -99,7 +99,7 @@ class AnswerController extends AdminController
     {
         return Form::make(new Answer(), function (Form $form) {
             $question_id = Request::input('question_id');
-            $subject_id = Request::input('subject_id');
+            $subject_id = Request::input('subject_id') ?? config('question.default_subject_id');
             $form->display('id');
             // $form->text('question_id')->value($question_id);
             $form->select('question_id')

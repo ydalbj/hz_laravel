@@ -38,7 +38,7 @@ JS;
         // 通过 Admin::script 设置的JS代码会自动在所有JS脚本都加载完毕后执行
         Admin::script($this->script());
 
-        $subject_id = Request::input('subject_id');
+        $subject_id = Request::input('subject_id') ?? config('question.default_subject_id');
         $id = Request::input('id');
         $result = Result::find($id);
         $answers = json_decode($result->results, true);

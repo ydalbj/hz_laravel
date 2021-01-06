@@ -44,7 +44,7 @@ class QuestionController extends AdminController
             // $grid->column('is_hide');
             $types = config('question.type');
             $grid->column('type')->select($types);
-            $subject_id = Request::input('subject_id');
+            $subject_id = Request::input('subject_id') ?? config('question.default_subject_id');
             $grid->answers('选项设置')->display(function($answers) use ($subject_id) {
                 $count = count($answers);
 
@@ -152,7 +152,7 @@ class QuestionController extends AdminController
     protected function form()
     {
         return Form::make(new Question(), function (Form $form) {
-            $subject_id = Request::input('subject_id');
+            $subject_id = Request::input('subject_id') ?? config('question.default_subject_id');
             $form->display('id');
             // $form->text('subject_id')->value($subject_id)->required();
             $form->select('subject_id')
@@ -191,7 +191,7 @@ class QuestionController extends AdminController
                 $footer->disableCreatingCheck();
             });
 
-            $return_url = '/admin/questions?subject_id=' . Request::input('subject_id');
+            $return_url = '/admin/questions?subject_id=' . $subject_id;
             $form->tools('<a class="btn btn-primary disable-outline" href=' . $return_url . '>返回</a>');
         });
     }
@@ -247,6 +247,7 @@ class QuestionController extends AdminController
      */
     public function store()
     {
+        $base_age = Request::input('base_age');
         $min_age = Request::input('min_age');
         $max_age = Request::input('max_age');
         $for_sex = Request::input('for_sex');
@@ -254,7 +255,11 @@ class QuestionController extends AdminController
         $data = Request::all();
 
         // 默认初始化为无限制
-        $data['min_age'] = $data['max_age'] = $data['for_sex'] = -1;
+        $data['base_age'] = $data['min_age'] = $data['max_age'] = $data['for_sex'] = -1;
+
+        if ($base_age) {
+            $data['base_age'] = AgeHelper::string2MonthInt($base_age);
+        }
 
         if ($min_age) {
             $data['min_age'] = AgeHelper::string2MonthInt($min_age);

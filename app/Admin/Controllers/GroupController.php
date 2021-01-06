@@ -23,7 +23,7 @@ class GroupController extends AdminController
         return Grid::make(new Group(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('title')->editable();
-            $subject_id = Request::input('subject_id');
+            $subject_id = Request::input('subject_id') ?? config('question.default_subject_id');
             $query = Subject::query();
             if ($subject_id) {
                 $query = $query->where('id', $subject_id);
