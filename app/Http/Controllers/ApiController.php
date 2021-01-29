@@ -20,7 +20,8 @@ class ApiController extends Controller
         ->orderBy('group_id')
         ->orderBy('base_age', 'desc')
         ->with(['answers' => function ($query) {
-            $query->select('id', 'question_id', 'title', 'is_selected_pass');
+            $query->select('id', 'question_id', 'title', 'is_selected_pass')
+                ->orderBy('is_selected_pass', 'asc');
         }])
         ->get();
 
