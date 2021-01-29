@@ -31,6 +31,47 @@ class ApiController extends Controller
     {
         $results = $request->input('results');
         $basic_info = $request->input('basic');
+        /*
+        $results = [
+            19 => [145],
+            20 => [144],
+            21 => [143],
+            22 => [142],
+            23 => [141],
+            35 => [161],
+            36 => [165],
+            37 => [169],
+            38 => [173],
+            39 => [177],
+            40 => [181],
+            48 => [219],
+            49 => [225],
+            50 => [229],
+            51 => [235],
+            57 => [337],
+            58 => [271],
+            59 => [275],
+            60 => [279],
+            61 => [283],
+            66 => [299],
+            67 => [303],
+            68 => [307],
+            69 => [311],
+            70 => [315],
+            74 => [336],
+            75 => [349],
+        ];
+        $basic_info = [
+            'birthday' => '2018-01-01',
+               'telephone' => 0,
+               'sex' => 1,
+               'birth_info' => 1,
+               'birth_order' => 1,
+               'who_take_care' => 1,
+               'region' => ['aaa'],
+               'birth_situations' => ['aa'],
+        ];
+        */
         if (!$results || !$basic_info) {
             return "非法请求";
         }

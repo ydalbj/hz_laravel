@@ -16,7 +16,7 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('subject_id');
-            $table->string('results', 255)->comment('回答结果');
+            $table->text('results', 1000)->comment('回答结果');
             $table->unsignedInteger('age')->comment('年龄');
             $table->unsignedTinyInteger('sex')->comment('性别');
             $table->unsignedInteger('score')->comment('得分');
