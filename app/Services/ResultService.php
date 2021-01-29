@@ -103,10 +103,19 @@ class ResultService
                 $data[$group_id]['age_formatted'] = AgeHelper::monthInt2String($calculated_age);
                 $data[$group_id]['score'] = round(100 * $calculated_age / $month_age);
             } else {
-                $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
-                $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
-                $data[$group_id]['total'] = count($q->answers);
-                $data[$group_id]['selected_count'] = count($answer_ids);
+                $all_can_do = Answer::whereIn('id', $answer_ids)->where('is_selected_pass', 1)->get();
+                // 如果选中了，没有以上情况选项，则评分为100
+                if (!$all_can_do->empty()) {
+                    $data[$group_id]['level_standard'] = 5;
+                    $data[$group_id]['score'] = 100;
+                    $data[$group_id]['total'] = count($q->answers);
+                    $data[$group_id]['selected_count'] = count($answer_ids);
+                } else {
+                    $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
+                    $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
+                    $data[$group_id]['total'] = count($q->answers);
+                    $data[$group_id]['selected_count'] = count($answer_ids);
+                }
             }
             
             $data[$group_id]['group_name'] = $q->group->title;
