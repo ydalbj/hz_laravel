@@ -92,6 +92,7 @@ class ResultService
             }
 
             $answer_ids = $results[$q->id];
+            $data[$group_id]['group_name'] = $q->group->title;
             if ($q->group->is_age_standard) {
                 $calculated_age = $this->calculateAgeStandardByAnswers($q->answers, $answer_ids, $month_age, $q->base_age);
                 if (!isset($calculated_age) || $calculated_age < 0) {
@@ -122,8 +123,6 @@ class ResultService
                 $data[$group_id]['total'] = count($q->answers);
                 $data[$group_id]['selected_count'] = count($answer_ids);
             }
-            
-            $data[$group_id]['group_name'] = $q->group->title;
         }
 
         return $data;
