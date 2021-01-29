@@ -103,7 +103,7 @@ class ResultService
                 $data[$group_id]['age_formatted'] = AgeHelper::monthInt2String($calculated_age);
                 $data[$group_id]['score'] = round(100 * $calculated_age / $month_age);
             } else {
-                $all_can_do = Answer::whereIn('id', $answer_ids)->where('is_selected_pass', 1)->get();
+                $all_can_do = $q->answers->whereIn('id', $answer_ids)->where('is_selected_pass', 1);
                 // 如果选中了，没有以上情况选项，则评分为100
                 if (!$all_can_do->isEmpty()) {
                     // if (count($answer_ids) > 1) {
@@ -131,7 +131,7 @@ class ResultService
 
     private function calculateAgeStandardByAnswers($answers, $selected_answer_ids, $month_age, $base_age)
     {
-        $pass_answers = $answers->whereIn('id', $selected_answer_ids)->where('is_selected_pass', 1)->get();
+        $pass_answers = $answers->whereIn('id', $selected_answer_ids)->where('is_selected_pass', 1);
         // 如果选中了`都不做到`,则不符合年龄标准跳过
         if (!$pass_answers->isEmpty()) {
             return null;
