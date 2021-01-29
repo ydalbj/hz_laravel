@@ -18,26 +18,31 @@ return [
             'age_standard' => 0,
             'age_formatted' => '0岁',
             'score' => 0,
+            'group_name' => '大运动',
         ],
         '3' => [
             'age_standard' => 0,
             'age_formatted' => '0岁',
             'score' => 0,
+            'group_name' => '个人社交',
         ],
         '5' => [
             'age_standard' => 0,
             'age_formatted' => '0岁',
             'score' => 0,
+            'group_name' => '理解认知',
         ],
         '6' => [
             'age_standard' => 0,
             'age_formatted' => '0岁',
             'score' => 0,
+            'group_name' => '语言发育',
         ],
         '7' => [
             'age_standard' => 0,
             'age_formatted' => '0岁',
             'score' => 0,
+            'group_name' => '精细运动',
         ],
     ]
 ];
