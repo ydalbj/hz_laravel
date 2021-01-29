@@ -105,17 +105,22 @@ class ResultService
             } else {
                 $all_can_do = Answer::whereIn('id', $answer_ids)->where('is_selected_pass', 1)->get();
                 // 如果选中了，没有以上情况选项，则评分为100
-                if (!$all_can_do->empty()) {
-                    $data[$group_id]['level_standard'] = 5;
-                    $data[$group_id]['score'] = 100;
-                    $data[$group_id]['total'] = count($q->answers);
-                    $data[$group_id]['selected_count'] = count($answer_ids);
-                } else {
-                    $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
-                    $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
-                    $data[$group_id]['total'] = count($q->answers);
-                    $data[$group_id]['selected_count'] = count($answer_ids);
+                if (!$all_can_do->isEmpty()) {
+                    // if (count($answer_ids) > 1) {
+                    //     // 如果选项选中多与一个，舍弃以上都没有的情况
+                    //     $answer_ids = array_diff($answer_ids, [$all_can_do->first()->id]);
+                    // } else {
+                        $data[$group_id]['level_standard'] = 5;
+                        $data[$group_id]['score'] = 100;
+                        $data[$group_id]['total'] = count($q->answers);
+                        $data[$group_id]['selected_count'] = count($answer_ids);
+                        continue;
+                    // }
                 }
+                $data[$group_id]['level_standard'] = round(5 * count($answer_ids) / count($q->answers));
+                $data[$group_id]['score'] = 100 - round(100 * count($answer_ids) / count($q->answers));
+                $data[$group_id]['total'] = count($q->answers);
+                $data[$group_id]['selected_count'] = count($answer_ids);
             }
             
             $data[$group_id]['group_name'] = $q->group->title;
@@ -126,7 +131,7 @@ class ResultService
 
     private function calculateAgeStandardByAnswers($answers, $selected_answer_ids, $month_age, $base_age)
     {
-        $pass_answers = $answers->whereIn('id', $selected_answer_ids)->where('is_selected_pass', 1);
+        $pass_answers = $answers->whereIn('id', $selected_answer_ids)->where('is_selected_pass', 1)->get();
         // 如果选中了`都不做到`,则不符合年龄标准跳过
         if (!$pass_answers->isEmpty()) {
             return null;
