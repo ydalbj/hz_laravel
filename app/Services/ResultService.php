@@ -86,7 +86,7 @@ class ResultService
 
         $data = config('question.default_result');
         foreach ($questions as $q) {
-            $group_id = intval($q->group_id);
+            $group_id = $q->group_id;
             if (!$group_id) {
                 continue;
             }
