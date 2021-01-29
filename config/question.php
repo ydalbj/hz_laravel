@@ -13,4 +13,31 @@ return [
     ],
     'max_age' => 120, // 单位`月`,10岁
     'default_subject_id' => 1,
+    'default_result' => [
+        1 => [
+            'age_standard' => 0,
+            'age_formatted' => '0岁',
+            'score' => 0,
+        ],
+        3 => [
+            'age_standard' => 0,
+            'age_formatted' => '0岁',
+            'score' => 0,
+        ],
+        5 => [
+            'age_standard' => 0,
+            'age_formatted' => '0岁',
+            'score' => 0,
+        ],
+        6 => [
+            'age_standard' => 0,
+            'age_formatted' => '0岁',
+            'score' => 0,
+        ],
+        7 => [
+            'age_standard' => 0,
+            'age_formatted' => '0岁',
+            'score' => 0,
+        ],
+    ]
 ];
