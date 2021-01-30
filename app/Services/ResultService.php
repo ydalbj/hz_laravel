@@ -144,6 +144,7 @@ class ResultService
             $calculated_age = $month_age;
         }
 
-        return $calculated_age;
+        // 计算年龄不能超过实际年龄
+        return min($calculated_age, $month_age);
     }
 }
