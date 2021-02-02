@@ -49,7 +49,6 @@
                 </div>
             </div>
             <div
-            <!--
             <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">测评结果</h3>
@@ -59,13 +58,20 @@
                                 @if (isset($result->group_evaluations))
                                 @foreach (json_decode($result->group_evaluations, true) as $v)
                                     <li>
+                                        {{$v['group_name']}}：
+                                            @if (isset($v['age_formatted']))
+                                                测评年龄：{{$v['age_formatted']}}；
+                                            @endif
+                                            @if (isset($v['level_standard']))
+                                                测评程度：@if ($v['level_standard'] > 4) 重 @elseif ($v['level_standard'] < 2) 轻 @else 中 @endif;
+                                            @endif
+                                            测评分数：{{$v['score']}};
                                     </li>
                                 @endforeach
                                 @endif
                         </ul>
                     </div>
             </div>
--->
             @foreach ($questions as $q)
                 <div class="card">
                     <div class="card-header">
